@@ -19,7 +19,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="<?= base_url()?>admin/">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -37,7 +37,7 @@
                         <a class="collapse-item" href="#">Add Book</a>
                         <a class="collapse-item" href="#">Update Book</a>
                         <a class="collapse-item" href="#">Delete Book</a>
-                        <a class="collapse-item" href="#">List Book</a>
+                        <a class="collapse-item" href="<?= base_url()?>user/table">List Book</a>
                     </div>
                 </div>
             </li>
@@ -50,6 +50,13 @@
                 Item
             </div>
 
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url()?>user/">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span></a>
+            </li>
+
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
@@ -60,8 +67,8 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.html">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <a class="collapse-item" href="<?= base_url()?>user/table">List Book</a>
+                        <a class="collapse-item" href="<?= base_url()?>user/recommendation">Recommendation</a>
                     </div>
                 </div>
             </li>
