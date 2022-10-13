@@ -5,10 +5,10 @@
     <!-- Basic Card Example -->
     <div class="row justify-content-center">
         <div class="card shadow mb-4">
-            <?php if($book['image'] == ''): ?>
-                <center><img src="<?= $book['link_image']?>" alt="" style="margin-top:5px"></center>
+            <?php if(empty($book['image'])): ?>
+                <center><img src="<?= $book['link_image']?>" alt="" style="width: 8rem;height: 250px;object-fit: contain; margin-top:5px"></center>
             <?php else: ?>
-                <center><img src="<?= $book['image']?>" alt="" style="margin-top:5px"></center>
+                <center><img src="<?= base_url()?>/assets/img/book_img/<?= $book['image']?>" alt="" style="width: 8rem;height: 250px;object-fit: contain;margin-top:5px"></center>
             <?php endif; ?>
             <div class="card-body">
                 <h6 class="m-0 font-weight-bold text-primary"><?= $book['Book_title']; ?></h6>

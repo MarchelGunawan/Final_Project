@@ -2,7 +2,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-book"></i>
                 </div>
@@ -12,112 +12,41 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                Admin
-            </div>
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url()?>admin/">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#Book" aria-expanded="true"
-                    aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>CRUD</span>
-                </a>
-                <div id="Book" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">CRUD Book:</h6>
-                        <a class="collapse-item" href="#">Add Book</a>
-                        <a class="collapse-item" href="#">Update Book</a>
-                        <a class="collapse-item" href="#">Delete Book</a>
-                        <a class="collapse-item" href="<?= base_url()?>user/table">List Book</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            <!-- Query the menu -->
+            <?php 
+                $queryMenu = "SELECT t1.id, t1.Menu FROM `user_menu` t1 
+                JOIN `user_access_menu` t2 ON t1.id = t2.menu_id WHERE t2.role_id = ".$user['role_id']." ORDER BY t2.menu_id ASC";
+                $menu = $this->db->query($queryMenu)->result_array();
+            ?>
 
             <!-- Heading -->
-            <div class="sidebar-heading">
-                Item
-            </div>
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="<?= base_url()?>user/">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>List Book</span>
-                </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="<?= base_url()?>user/table">List Book</a>
-                        <a class="collapse-item" href="<?= base_url()?>user/recommendation">Recommendation</a>
-                    </div>
+            <?php foreach($menu as $m): ?>
+                <div class="sidebar-heading">
+                    <?= $m['Menu']; ?>
                 </div>
-            </li>
+                <?php 
+                    $menuId = $m['id'];
+                    $querysubmenu = "SELECT t3.menu_title, t3.url, t3.icon, t3.is_active FROM `user_menu` t1 
+                    JOIN `user_sub_menu` t3 ON t1.id = t3.menu_id WHERE t1.id = ". $menuId ." AND 
+                    t3.is_active = 1;";
+                    $submenu = $this->db->query($querysubmenu)->result_array();
+                ?>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Utilities</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Utilities:</h6>
-                        <a class="collapse-item" href="utilities-color.html">Colors</a>
-                        <a class="collapse-item" href="utilities-border.html">Borders</a>
-                        <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                        <a class="collapse-item" href="utilities-other.html">Other</a>
-                    </div>
-                </div>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                User
-            </div>
-
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true"
-                    aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-history"></i>
-                    <span>History</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Borrow & Return History:</h6>
-                        <a class="collapse-item" href="#">Borrow History</a>
-                        <a class="collapse-item" href="#">Return History</a>
-                        <a class="collapse-item" href="#">All History</a>
-                    </div>
-                </div>
-            </li>
-
+                <?php foreach($submenu as $sb): ?>
+                    <?php if($sb['is_active'] == 1): ?>
+                <!-- Nav Item - Dashboard -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= base_url()?><?= $sb['url']?>">
+                            <i class="<?= $sb['icon']?>"></i>
+                            <span><?= $sb['menu_title']; ?></span></a>
+                    </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <hr class="sidebar-divider">
+            <?php endforeach; ?>
+            
+            <!-- SUB menu -->
+            
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
                 <button class="rounded-circle border-0" id="sidebarToggle"></button>

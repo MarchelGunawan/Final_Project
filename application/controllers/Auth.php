@@ -28,6 +28,7 @@ class Auth extends CI_Controller
         $this->session->unset_userdata('id');
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('image');
+        $this->session->sess_destroy();
         redirect('auth/login');
     }
 
@@ -46,7 +47,11 @@ class Auth extends CI_Controller
                         'image' => $user['image'],
                     );
                     $this->session->set_userdata($data);
-                    redirect('user');
+                    if($user['role_id'] == 1){
+                        redirect('user');
+                    }else{
+                        redirect('admin');
+                    }
                 }else{
                     redirect('auth/login');
                 }
