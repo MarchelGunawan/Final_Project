@@ -12,6 +12,8 @@ class Admin extends CI_Controller
     {
         $data['user'] = $this->session->userdata();
         $data['title'] = "dashboard";
+        $data['top5'] = $this->searchModel->top5_book();
+        $data['statistic'] = $this->searchModel->statistic();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);

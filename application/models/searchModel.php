@@ -100,4 +100,16 @@ class searchModel extends CI_Model
         $query = "UPDATE book SET Book_qty = Book_qty + 1 WHERE Book_id = ".$book_id;
         $this->db->query($query);
     }
+
+    public function top5_book(){
+        $query = "SELECT TOP(5) * FROM book ORDER BY average_rating DESC";
+        return $this->db->query($query)->result_array();
+    }
+
+    // function for take data for today borrow book and return it
+    public function statistic(){
+        $date = Date('Y-m-d');
+        $query = "SELECT * FROM borrow_records WHERE borrow_date = '".$date."'";
+        return $this->db->query($query)->result_array();
+    }
 }
