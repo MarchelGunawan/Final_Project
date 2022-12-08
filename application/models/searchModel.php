@@ -102,7 +102,7 @@ class searchModel extends CI_Model
     }
 
     public function top5_book(){
-        $query = "SELECT TOP(5) * FROM book ORDER BY average_rating DESC";
+        $query = "SELECT * FROM book ORDER BY average_rating DESC LIMIT 0,10 ";
         return $this->db->query($query)->result_array();
     }
 
