@@ -177,4 +177,17 @@ class User extends CI_Controller
         $this->load->view('user/return_history', $data);
         $this->load->view('templates/footer', $data);
     }
+
+    public function listsearchBook()
+    {
+        $keyword = $this->input->post('keyword');
+        $data['user'] = $this->session->userdata();
+        $data['title'] = "List Search Book for ".$keyword."";
+        $data['list'] = $this->searchModel->SearchlistBook($keyword);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('user/listsearchBook', $data);
+        $this->load->view('templates/footer', $data);
+    }
 }

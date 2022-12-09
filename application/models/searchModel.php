@@ -112,4 +112,9 @@ class searchModel extends CI_Model
         WHERE YEARWEEK(borrow_date) = YEARWEEK(NOW()) GROUP BY borrow_date;";
         return $this->db->query($query)->result_array();
     }
+
+    public function SearchlistBook($keyword){
+        $query = "SELECT * FROM book WHERE book_title LIKE '%".$keyword."%'";
+        return $this->db->query($query)->result_array();
+    }
 }
