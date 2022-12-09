@@ -102,14 +102,14 @@ class searchModel extends CI_Model
     }
 
     public function top5_book(){
-        $query = "SELECT * FROM book ORDER BY average_rating DESC LIMIT 0,10 ";
+        $query = "SELECT * FROM book ORDER BY average_rating DESC LIMIT 0,5 ";
         return $this->db->query($query)->result_array();
     }
 
     // function for take data for today borrow book and return it
     public function statistic(){
-        $date = Date('Y-m-d');
-        $query = "SELECT * FROM borrow_records WHERE borrow_date = '".$date."'";
+        $query = "SELECT COUNT(borrow_date) as borrowbook, borrow_date FROM borrow_records 
+        WHERE YEARWEEK(borrow_date) = YEARWEEK(NOW()) GROUP BY borrow_date;";
         return $this->db->query($query)->result_array();
     }
 }

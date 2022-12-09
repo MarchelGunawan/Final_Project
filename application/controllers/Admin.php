@@ -11,7 +11,7 @@ class Admin extends CI_Controller
     public function index()
     {
         $data['user'] = $this->session->userdata();
-        $data['title'] = "dashboard";
+        $data['title'] = "Admin dashboard";
         $data['top5'] = $this->searchModel->top5_book();
         $data['statistic'] = $this->searchModel->statistic();
         $this->load->view('templates/header', $data);
