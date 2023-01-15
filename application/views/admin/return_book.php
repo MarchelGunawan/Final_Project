@@ -29,7 +29,7 @@
                                 <td><?= $r['due_date']; ?></td>
                                 <?php if(empty($r['return_date'])): ?>
                                     <td>
-                                        <button class="btn btn-primary" id="return_book" data-id="<?= $r['borrow_id']; ?>" data-user="<?= $user['id']?>" data-book="<?= $r['Book_id']?>"><i class="fas fa-fw fa-dolly"></i> Return Book</button>
+                                        <button class="btn btn-primary returnBook" id="return_book" data-id="<?= $r['borrow_id']; ?>" data-user="<?= $user['id']?>" data-book="<?= $r['Book_id']?>"><i class="fas fa-fw fa-dolly"></i> Return Book</button>
                                     </td>
                                 <?php else: ?>
                                     <td>
@@ -49,7 +49,7 @@
 
 <script>
     $(document).ready(function() {
-        $('#return_book').click(function() {
+        $('.returnBook').click(function() {
             var id = $(this).data('id');
             var user = $(this).data('user');
             var book = $(this).data('book');

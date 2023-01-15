@@ -3,7 +3,7 @@ class searchModel extends CI_Model
 {
     public function listBook($limit, $start)
     {
-        return $this->db->get('book', $limit, $start)->result_array();
+        return $this->db->where('is_active', 1)->get('book', $limit, $start)->result_array();
     }
 
     public function specific_book($id)
@@ -63,7 +63,8 @@ class searchModel extends CI_Model
 
     public function list_borrow_book()
     {
-        $query = "SELECT t1.borrow_id, t2.Book_title, t3.username, t1.borrow_date, t1.due_date, t3.image, t2.Book_id FROM borrow_records t1
+        $query = "SELECT t1.borrow_id, t2.Book_title, t3.username, t1.borrow_date, 
+        t1.due_date, t3.image, t2.Book_id FROM borrow_records t1
         JOIN book t2 ON t2.Book_id = t1.book_id
         JOIN user t3 ON t3.id = t1.user_id WHERE t1.staff_id = 0 AND t1.is_active = 1";
         return $this->db->query($query)->result_array();
@@ -77,13 +78,15 @@ class searchModel extends CI_Model
 
     public function declining_borrow_book($borrow_id, $user_id)
     {
-        $query = "UPDATE borrow_records SET is_active = 0, staff_id = ". $user_id ." WHERE borrow_id = ".$borrow_id;
+        $query = "UPDATE borrow_records SET is_active = 0, staff_id = ". $user_id ." 
+        WHERE borrow_id = ".$borrow_id;
         $this->db->query($query);
     }
 
     public function list_return_book()
     {
-        $query = "SELECT t1.borrow_id, t2.Book_title, t3.username, t1.borrow_date, t1.due_date, t1.return_date, t2.Book_id FROM borrow_records t1
+        $query = "SELECT t1.borrow_id, t2.Book_title, t3.username, 
+        t1.borrow_date, t1.due_date, t1.return_date, t2.Book_id FROM borrow_records t1
         JOIN book t2 ON t2.Book_id = t1.book_id
         JOIN user t3 ON t3.id = t1.user_id WHERE t1.staff_id <> 0 AND (t1.is_active = 1 OR t1.is_active = 2)";
         return $this->db->query($query)->result_array();
@@ -91,7 +94,8 @@ class searchModel extends CI_Model
 
     public function accept_book_return($borrow_id, $user_id)
     {
-        $query = "UPDATE borrow_records SET return_date = '".Date('Y-m-d')."', staff_id = ". $user_id ." WHERE borrow_id = ".$borrow_id;
+        $query = "UPDATE borrow_records SET return_date = '".Date('Y-m-d')."', 
+        staff_id = ". $user_id ." WHERE borrow_id = ".$borrow_id;
         $this->db->query($query);
     }
 
@@ -116,5 +120,26 @@ class searchModel extends CI_Model
     public function SearchlistBook($keyword){
         $query = "SELECT * FROM book WHERE book_title LIKE '%".$keyword."%'";
         return $this->db->query($query)->result_array();
+    }
+
+    public function giveRating($rating, $user_id, $book_id){
+        $query = "INSERT INTO review (user_id, book_id, rating) VALUES('".$user_id."', '".$book_id."', '".$rating."')";
+        $this->db->query($query);
+    }
+
+    public function average_rating($book_id)
+    {
+        $query = "SELECT AVG(rating) as average_rating FROM review WHERE book_id = '".$book_id."'";
+        return $this->db->query($query)->row_array();
+    }
+
+    public function updateRatingBook($average_rating, $book_id){
+        $query = "UPDATE book SET average_rating = ".$average_rating.", ratings_count = ratings_count + 1 WHERE  Book_id = '".$book_id."'";
+        $this->db->query($query);
+    }
+
+    public function updateBorrowRecords($borrow_id){
+        $query = "UPDATE borrow_records SET is_active = 2 WHERE borrow_id = '".$borrow_id."'";
+        $this->db->query($query);
     }
 }

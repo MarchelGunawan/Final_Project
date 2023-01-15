@@ -41,7 +41,8 @@
                 <div class="col-sm">
                     <a href="<?= base_url()?>user/borrow_book/<?= $r['Book_id']?>" style="text-decoration: none">
                             <div class="card shadow mb-4" style="width: 16rem;height: 30rem;">
-                                <center><img src="<?= $r['link_image']?>" class="card-img-top" style="width: 8rem;height: 250px;object-fit: contain"></center>
+                                <center><img src="<?= $r['link_image']?>" class="card-img-top" 
+                                style="width: 8rem;height: 250px;object-fit: contain"></center>
                                 <div class="card-body">
                                     <h6 class="m-0 font-weight-bold text-primary"><?= $r['Book_title']; ?></h6>
                                     <p style="color: grey;">Author: <?= $r['Book_author']; ?></p>

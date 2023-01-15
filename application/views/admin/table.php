@@ -49,7 +49,7 @@
                                         <?php endfor; ?>
                                     </td>
                                     <td>
-                                        <button class="btn btn-warning" id="update_button" data-toggle="modal" data-target="#updateModal" 
+                                        <button class="btn btn-warning update_button" id="update_button" data-toggle="modal" data-target="#updateModal" 
                                         data-id="<?= $t['Book_id']?>" data-isbn="<?= $t['isbn']?>" data-title="<?= $t['Book_title']?>" 
                                         data-author="<?= $t['Book_author']?>" data-year="<?= $t['original-publication_year']?>" 
                                         data-qty="<?= $t['Book_qty']?>"><i class="fas fa-pen"></i>Update</button>
@@ -114,7 +114,7 @@
 </div>
 <script>
     $(document).ready(function() {
-        $('#update_button').click(function() {
+        $('.update_button').click(function() {
             var book_id = $(this).data('id');
             $('#form_id').attr("action", "<?= base_url()?>admin/update/"+book_id);
             $('#isbn').val($(this).data('isbn'));

@@ -163,7 +163,6 @@ class User extends CI_Controller
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('user/all_history', $data);
-        $this->load->view('templates/footer', $data);
     }
 
     public function return_history()
@@ -189,5 +188,16 @@ class User extends CI_Controller
         $this->load->view('templates/topbar', $data);
         $this->load->view('user/listsearchBook', $data);
         $this->load->view('templates/footer', $data);
+    }
+
+    public function rating(){
+        $rating = $this->input->post('rating');
+        $user_id = $this->input->post('user_id');
+        $book_id = $this->input->post('book_id');
+        $borrow_id = $this->input->post('borrow_id');
+        $this->searchModel->giveRating($rating, $user_id, $book_id);
+        $average_rating = $this->searchModel->average_rating($book_id);
+        $this->searchModel->updateRatingBook(floatval($average_rating['average_rating']), $book_id);
+        $this->searchModel->updateBorrowRecords($borrow_id);
     }
 }
